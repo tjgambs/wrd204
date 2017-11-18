@@ -4,8 +4,8 @@ permalink:      /:title
 # Setup
 title:          Web Scraper User Guide
 paginate:       5
-baseurl:        "/wrd204"
-url:            "https://tjgambs.github.io"
+baseurl:        ""
+url:            "https://tjgambs.github.io/wrd204"
 
 # Assets
 sass:
@@ -18,7 +18,7 @@ markdown:       kramdown
 # About
 author:
   name:         Tim Gamble
-  url:          http://tjgambs.github.io
+  url:          http://tjgambs.github.io/wrd204
   email:        tjgambs@gmail.com
 
 # Gems
