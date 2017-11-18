@@ -12,7 +12,7 @@
   </title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/wrd204/styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
 </head>
 
@@ -20,11 +20,11 @@
   <body>
     <nav class="nav">
       <div class="nav-container">
-        <a href="/">
+        <a href="/wrd204/">
           <h2 class="nav-title">Web Scraper User Guide</h2>
         </a>
         <ul>
-          <li><a href="/">Posts</a></li>
+          <li><a href="/wrd204/">Posts</a></li>
         </ul>
     </div>
   </nav>
@@ -34,7 +34,7 @@
   <div class="post-info">
     <span>Written by</span>
     
-        Tim Gamble
+        
     
 
     
@@ -50,28 +50,28 @@
 
 <!-- Each chapter needs specific software or python packages, this is where they go. -->
 
-<h2 id="needed-items"><a href="/building-a-webscraper-chapter-1/">Needed Items</a></h2>
+<h2 id="needed-items"><a href="/wrd204/building-a-webscraper-chapter-1">Needed Items</a></h2>
 <ul>
   <li>Google Chrome</li>
   <li>Firefox</li>
   <li><code class="highlighter-rouge">Selenium</code></li>
   <li><code class="highlighter-rouge">BeautifulSoup</code></li>
-  <li>Know how to <a href="/building-a-webscraper-chapter-2/">turn off JavaScript</a> in Google Chrome</li>
+  <li>Know how to <a href="/wrd204/building-a-webscraper-chapter-2">turn off JavaScript</a> in Google Chrome</li>
 </ul>
 
 <!-- The actual tutorial explaining things. -->
 
 <h2 id="case-study-depaul-university-course-catalog">Case Study: DePaul University Course Catalog</h2>
 
-<p>Sanity Check: Navigate to this <a href="https://www.depaul.edu/university-catalog/course-descriptions/Pages/default.aspx">url</a> and <a href="/building-a-webscraper-chapter-2/">turn off JavaScript</a>. Confirm that what you see matches the image below. <img src="/images/chapter4/1.png" alt="" title="image" /> <em>The content is gone which is an indicator that the content was generated using JavaScript.</em></p>
+<p>Sanity Check: Navigate to this <a href="https://www.depaul.edu/university-catalog/course-descriptions/Pages/default.aspx">url</a> and <a href="/wrd204/building-a-webscraper-chapter-2">turn off JavaScript</a>. Confirm that what you see matches the image below. <img src="/wrd204/images/chapter4/1.png" alt="" title="image" /> <em>The content is gone which is an indicator that the content was generated using JavaScript.</em></p>
 
 <h3 id="before-writing-code-find-the-html-tag">Before Writing Code: Find the HTML Tag</h3>
 
 <!-- Step 1 -->
-<p>1. Navigate to the following <strong><a href="https://www.depaul.edu/university-catalog/course-descriptions/Pages/default.aspx">url</a></strong> with JavaScript turned <strong>on</strong> and <strong><a href="/building-a-webscraper-chapter-2/">inspect the page</a></strong>.</p>
+<p>1. Navigate to the following <strong><a href="https://www.depaul.edu/university-catalog/course-descriptions/Pages/default.aspx">url</a></strong> with JavaScript turned <strong>on</strong> and <strong><a href="/wrd204/building-a-webscraper-chapter-2">inspect the page</a></strong>.</p>
 
 <!-- Step 2 -->
-<p>2. Select the <strong>small square</strong> in the upper left of the window such that it turns <strong>blue</strong>. <strong>Hover</strong> over the HTML you want to scrape and <strong>click</strong>. The HTML of that element will appear in the inspect window. <img src="/images/chapter4/2.png" alt="" title="image" />
+<p>2. Select the <strong>small square</strong> in the upper left of the window such that it turns <strong>blue</strong>. <strong>Hover</strong> over the HTML you want to scrape and <strong>click</strong>. The HTML of that element will appear in the inspect window. <img src="/wrd204/images/chapter4/2.png" alt="" title="image" />
 <em>In this example, we hovered over and clicked the element containing “<strong>ACC 101.</strong>” We will use the information about this tag (i.e. <strong>class</strong>) to scrape the contents of all courses on this page.</em></p>
 
 <div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- The selected tag --&gt;</span>
@@ -130,7 +130,7 @@
 </code></pre>
 </div>
 
-<p>3. Find the tags that contain the letters we want <code class="highlighter-rouge">Selenium</code> to click on. <img src="/images/chapter4/3.png" alt="" title="image" /></p>
+<p>3. Find the tags that contain the letters we want <code class="highlighter-rouge">Selenium</code> to click on. <img src="/wrd204/images/chapter4/3.png" alt="" title="image" /></p>
 
 <div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- The tag for the 'C' in the navigation bar. --&gt;</span>
 <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"tabs a-z-courses"</span> <span class="na">id=</span><span class="s">"letterBank"</span><span class="nt">&gt;</span>
@@ -210,7 +210,7 @@ the javascript generated html.
 
 <p>Helpful Links</p>
 <ul>
-  <li>Download the completed scraper: <a href="/sample-scripts/chapter4.py">chapter4.py</a></li>
+  <li>Download the completed scraper: <a href="/wrd204/sample-scripts/chapter4.py">chapter4.py</a></li>
   <li><a href="http://akul.me/blog/2016/selenium-cheatsheet/">Selenium Cheat Sheet</a></li>
 </ul>
 
@@ -228,10 +228,10 @@ the javascript generated html.
 
 <div class="pagination">
   
-    <a href="/building-a-webscraper-chapter-3" class="left arrow">&#8592; Previous Chapter</a>
+    <a href="/wrd204/building-a-webscraper-chapter-3" class="left arrow">&#8592; Previous Chapter</a>
   
   
-    <a href="/building-a-webscraper-chapter-5" class="right arrow">Next Chapter &#8594;</a>
+    <a href="/wrd204/building-a-webscraper-chapter-5" class="right arrow">Next Chapter &#8594;</a>
   
 
   <a href="#" class="top">Top</a>
@@ -241,7 +241,7 @@ the javascript generated html.
 
     <footer>
       <span>
-        &copy; <time datetime="2017-11-17 19:59:17 -0600">2017</time> Tim Gamble
+        &copy; <time datetime="2017-11-18 12:13:33 -0600">2017</time> 
       </span>
     </footer>
   </body>

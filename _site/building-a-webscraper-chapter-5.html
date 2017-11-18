@@ -12,7 +12,7 @@
   </title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/wrd204/styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
 </head>
 
@@ -20,11 +20,11 @@
   <body>
     <nav class="nav">
       <div class="nav-container">
-        <a href="/">
+        <a href="/wrd204/">
           <h2 class="nav-title">Web Scraper User Guide</h2>
         </a>
         <ul>
-          <li><a href="/">Posts</a></li>
+          <li><a href="/wrd204/">Posts</a></li>
         </ul>
     </div>
   </nav>
@@ -34,7 +34,7 @@
   <div class="post-info">
     <span>Written by</span>
     
-        Tim Gamble
+        
     
 
     
@@ -48,34 +48,34 @@
 
   <p>We will discuss how to scrape a website that has a frontend API. Newer websites have began to separate their frontend and backend which communicate through an API. This allows for developers to work more independently, however it also allows web scrapers much easier access to their data.</p>
 
-<h2 id="needed-items"><a href="/building-a-webscraper-chapter-1/">Needed Items</a></h2>
+<h2 id="needed-items"><a href="/wrd204/building-a-webscraper-chapter-1">Needed Items</a></h2>
 
 <ul>
   <li>Google Chrome</li>
   <li><code class="highlighter-rouge">requests</code></li>
   <li><code class="highlighter-rouge">xmltodict</code></li>
-  <li>Know how to <a href="/building-a-webscraper-chapter-2/">inspect a page</a> in Google Chrome</li>
+  <li>Know how to <a href="/wrd204/building-a-webscraper-chapter-2">inspect a page</a> in Google Chrome</li>
 </ul>
 
 <h2 id="case-study-depaul-university-course-catalog">Case Study: DePaul University Course Catalog</h2>
 
 <h3 id="before-writing-code-analyze-network-traffic">Before Writing Code: Analyze Network Traffic</h3>
 
-<p>1. Navigate to the following <strong><a href="https://www.depaul.edu/university-catalog/course-descriptions/Pages/default.aspx">url</a></strong> with JavaScript turned <strong>on</strong> and <strong><a href="/building-a-webscraper-chapter-2/">inspect the page</a></strong>.</p>
+<p>1. Navigate to the following <strong><a href="https://www.depaul.edu/university-catalog/course-descriptions/Pages/default.aspx">url</a></strong> with JavaScript turned <strong>on</strong> and <strong><a href="/wrd204/building-a-webscraper-chapter-2">inspect the page</a></strong>.</p>
 
-<p>2. Change the tab from <strong>Elements</strong> to <strong>Network</strong> because now we are interested in the network activity of the website. <img src="/images/chapter5/1.png" alt="" title="image" /></p>
+<p>2. Change the tab from <strong>Elements</strong> to <strong>Network</strong> because now we are interested in the network activity of the website. <img src="/wrd204/images/chapter5/1.png" alt="" title="image" /></p>
 
-<p>3. Reload the page. You will now see a lot of files/scripts in the network window. <img src="/images/chapter5/2.png" alt="" title="image" /></p>
+<p>3. Reload the page. You will now see a lot of files/scripts in the network window. <img src="/wrd204/images/chapter5/2.png" alt="" title="image" /></p>
 
-<p>4. We are not interested in all of these. We are only interested in a certain type of file: <strong>XHR</strong>. Change the tab to <strong>XHR</strong> to see all <strong>XMLHttpRequest’s.</strong> <img src="/images/chapter5/3.png" alt="" title="image" /></p>
+<p>4. We are not interested in all of these. We are only interested in a certain type of file: <strong>XHR</strong>. Change the tab to <strong>XHR</strong> to see all <strong>XMLHttpRequest’s.</strong> <img src="/wrd204/images/chapter5/3.png" alt="" title="image" /></p>
 
-<p>5. There is one request called <strong>Lists.asmx</strong>. After clicking on it and expanding out the XML, this is what we see. This seems to be the data that we are seeing on the page except coming from the <strong>frontend API</strong>. <img src="/images/chapter5/4.png" alt="" title="image" /></p>
+<p>5. There is one request called <strong>Lists.asmx</strong>. After clicking on it and expanding out the XML, this is what we see. This seems to be the data that we are seeing on the page except coming from the <strong>frontend API</strong>. <img src="/wrd204/images/chapter5/4.png" alt="" title="image" /></p>
 
 <h3 id="lets-write-some-code">Let’s Write Some Code</h3>
 
-<p>1. We will use a tool that will convert this request into Python code, I call it <a href="https://curl.trillworks.com/">cURL to Python</a>. Let’s copy this request as a cURL. <img src="/images/chapter5/5.png" alt="" title="image" /></p>
+<p>1. We will use a tool that will convert this request into Python code, I call it <a href="https://curl.trillworks.com/">cURL to Python</a>. Let’s copy this request as a cURL. <img src="/wrd204/images/chapter5/5.png" alt="" title="image" /></p>
 
-<p>2. Let’s paste this request into <a href="https://curl.trillworks.com/">cURL to Python</a> and copy the Python code generated. <img src="/images/chapter5/6.png" alt="" title="image" /></p>
+<p>2. Let’s paste this request into <a href="https://curl.trillworks.com/">cURL to Python</a> and copy the Python code generated. <img src="/wrd204/images/chapter5/6.png" alt="" title="image" /></p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
 
@@ -90,7 +90,7 @@
     <span class="s">'__utma'</span><span class="p">:</span> <span class="s">'49792185.2031229303.1508968351.1509754293.1509760156.4'</span><span class="p">,</span>
     <span class="s">'__utmb'</span><span class="p">:</span> <span class="s">'49792185.4.10.1509760156'</span><span class="p">,</span>
     <span class="s">'__utmc'</span><span class="p">:</span> <span class="s">'49792185'</span><span class="p">,</span>
-    <span class="s">'__utmz'</span><span class="p">:</span> <span class="s">'49792185.1509760156.4.4.utmcsr=localhost:4000|utmccn=(referral)|utmcmd=referral|utmcct=/building-a-webscraper-chapter-5/'</span><span class="p">,</span>
+    <span class="s">'__utmz'</span><span class="p">:</span> <span class="s">'49792185.1509760156.4.4.utmcsr=localhost:4000|utmccn=(referral)|utmcmd=referral|utmcct=/building-a-webscraper-chapter-5'</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
@@ -236,7 +236,7 @@ These will be contained in the env/ folder.
 
 <h2 id="helpful-links">Helpful Links</h2>
 <ul>
-  <li>Download the completed scraper: <a href="/sample-scripts/chapter5.py">chapter5.py</a></li>
+  <li>Download the completed scraper: <a href="/wrd204/sample-scripts/chapter5.py">chapter5.py</a></li>
   <li><a href="https://curl.trillworks.com/">cURL to Python</a></li>
 </ul>
 
@@ -251,7 +251,7 @@ These will be contained in the env/ folder.
 
 <div class="pagination">
   
-    <a href="/building-a-webscraper-chapter-4" class="left arrow">&#8592; Previous Chapter</a>
+    <a href="/wrd204/building-a-webscraper-chapter-4" class="left arrow">&#8592; Previous Chapter</a>
   
   
 
@@ -262,7 +262,7 @@ These will be contained in the env/ folder.
 
     <footer>
       <span>
-        &copy; <time datetime="2017-11-17 19:59:17 -0600">2017</time> Tim Gamble
+        &copy; <time datetime="2017-11-18 12:13:33 -0600">2017</time> 
       </span>
     </footer>
   </body>
