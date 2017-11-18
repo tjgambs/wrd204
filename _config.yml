@@ -4,7 +4,7 @@ permalink:      /:title
 # Setup
 title:          Web Scraper User Guide
 paginate:       5
-baseurl:        "/wrd204/"
+baseurl:        "/wrd204"
 url:            "https://tjgambs.github.io"
 
 # Assets
