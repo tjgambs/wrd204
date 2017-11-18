@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    
+      Chapter 5: Scrape a Website with a Frontend API &middot; Web Scraper User Guide
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+</head>
+
+
+  <body>
+    <nav class="nav">
+      <div class="nav-container">
+        <a href="/">
+          <h2 class="nav-title">Web Scraper User Guide</h2>
+        </a>
+        <ul>
+          <li><a href="/">Posts</a></li>
+        </ul>
+    </div>
+  </nav>
+
+    <main>
+      <div class="post">
+  <div class="post-info">
+    <span>Written by</span>
+    
+        Tim Gamble
+    
+
+    
+      <br>
+      <span>on&nbsp;</span><time datetime="2017-11-13 00:00:00 -0600">November 13, 2017</time>
+    
+  </div>
+
+  <h1 class="post-title">Chapter 5: Scrape a Website with a Frontend API</h1>
+  <div class="post-line"></div>
+
+  <p>We will discuss how to scrape a website that has a frontend API. Newer websites have began to separate their frontend and backend which communicate through an API. This allows for developers to work more independently, however it also allows web scrapers much easier access to their data.</p>
+
+<h2 id="needed-items"><a href="/building-a-webscraper-chapter-1/">Needed Items</a></h2>
+
+<ul>
+  <li>Google Chrome</li>
+  <li><code class="highlighter-rouge">requests</code></li>
+  <li><code class="highlighter-rouge">xmltodict</code></li>
+  <li>Know how to <a href="/building-a-webscraper-chapter-2/">inspect a page</a> in Google Chrome</li>
+</ul>
+
+<h2 id="case-study-depaul-university-course-catalog">Case Study: DePaul University Course Catalog</h2>
+
+<h3 id="before-writing-code-analyze-network-traffic">Before Writing Code: Analyze Network Traffic</h3>
+
+<p>1. Navigate to the following <strong><a href="https://www.depaul.edu/university-catalog/course-descriptions/Pages/default.aspx">url</a></strong> with JavaScript turned <strong>on</strong> and <strong><a href="/building-a-webscraper-chapter-2/">inspect the page</a></strong>.</p>
+
+<p>2. Change the tab from <strong>Elements</strong> to <strong>Network</strong> because now we are interested in the network activity of the website. <img src="/images/chapter5/1.png" alt="" title="image" /></p>
+
+<p>3. Reload the page. You will now see a lot of files/scripts in the network window. <img src="/images/chapter5/2.png" alt="" title="image" /></p>
+
+<p>4. We are not interested in all of these. We are only interested in a certain type of file: <strong>XHR</strong>. Change the tab to <strong>XHR</strong> to see all <strong>XMLHttpRequest’s.</strong> <img src="/images/chapter5/3.png" alt="" title="image" /></p>
+
+<p>5. There is one request called <strong>Lists.asmx</strong>. After clicking on it and expanding out the XML, this is what we see. This seems to be the data that we are seeing on the page except coming from the <strong>frontend API</strong>. <img src="/images/chapter5/4.png" alt="" title="image" /></p>
+
+<h3 id="lets-write-some-code">Let’s Write Some Code</h3>
+
+<p>1. We will use a tool that will convert this request into Python code, I call it <a href="https://curl.trillworks.com/">cURL to Python</a>. Let’s copy this request as a cURL. <img src="/images/chapter5/5.png" alt="" title="image" /></p>
+
+<p>2. Let’s paste this request into <a href="https://curl.trillworks.com/">cURL to Python</a> and copy the Python code generated. <img src="/images/chapter5/6.png" alt="" title="image" /></p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">cookies</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'_ceg.s'</span><span class="p">:</span> <span class="s">'oyg3ny'</span><span class="p">,</span>
+    <span class="s">'_ceg.u'</span><span class="p">:</span> <span class="s">'oyg3ny'</span><span class="p">,</span>
+    <span class="s">'depaul.edu'</span><span class="p">:</span> <span class="s">'datakey=db8321bb-ad00-4755-aed2-14cd059803b2&amp;videokey=6aee44ac-78af-4b2d-b41a-27effbf73772&amp;lectureid=300584'</span><span class="p">,</span>
+    <span class="s">'_ga'</span><span class="p">:</span> <span class="s">'GA1.2.2031229303.1508968351'</span><span class="p">,</span>
+    <span class="s">'_gid'</span><span class="p">:</span> <span class="s">'GA1.2.1097033466.1509740332'</span><span class="p">,</span>
+    <span class="s">'__utmt_globalTracker'</span><span class="p">:</span> <span class="s">'1'</span><span class="p">,</span>
+    <span class="s">'__utmt_siloTracker'</span><span class="p">:</span> <span class="s">'1'</span><span class="p">,</span>
+    <span class="s">'__utma'</span><span class="p">:</span> <span class="s">'49792185.2031229303.1508968351.1509754293.1509760156.4'</span><span class="p">,</span>
+    <span class="s">'__utmb'</span><span class="p">:</span> <span class="s">'49792185.4.10.1509760156'</span><span class="p">,</span>
+    <span class="s">'__utmc'</span><span class="p">:</span> <span class="s">'49792185'</span><span class="p">,</span>
+    <span class="s">'__utmz'</span><span class="p">:</span> <span class="s">'49792185.1509760156.4.4.utmcsr=localhost:4000|utmccn=(referral)|utmcmd=referral|utmcct=/building-a-webscraper-chapter-5/'</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'Pragma'</span><span class="p">:</span> <span class="s">'no-cache'</span><span class="p">,</span>
+    <span class="s">'Origin'</span><span class="p">:</span> <span class="s">'https://www.depaul.edu'</span><span class="p">,</span>
+    <span class="s">'Accept-Encoding'</span><span class="p">:</span> <span class="s">'gzip, deflate, br'</span><span class="p">,</span>
+    <span class="s">'Accept-Language'</span><span class="p">:</span> <span class="s">'en-US,en;q=0.9'</span><span class="p">,</span>
+    <span class="s">'User-Agent'</span><span class="p">:</span> <span class="s">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36'</span><span class="p">,</span>
+    <span class="s">'$Content-Type'</span><span class="p">:</span> <span class="s">'text/xml;charset=</span><span class="se">\'</span><span class="s">UTF-8</span><span class="se">\'</span><span class="s">'</span><span class="p">,</span>
+    <span class="s">'Accept'</span><span class="p">:</span> <span class="s">'application/xml, text/xml, */*; q=0.01'</span><span class="p">,</span>
+    <span class="s">'Cache-Control'</span><span class="p">:</span> <span class="s">'no-cache'</span><span class="p">,</span>
+    <span class="s">'X-Requested-With'</span><span class="p">:</span> <span class="s">'XMLHttpRequest'</span><span class="p">,</span>
+    <span class="s">'Connection'</span><span class="p">:</span> <span class="s">'keep-alive'</span><span class="p">,</span>
+    <span class="s">'Referer'</span><span class="p">:</span> <span class="s">'https://www.depaul.edu/university-catalog/course-descriptions/Pages/default.aspx'</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="s">'$&lt;soap:Envelope xmlns:xsi=</span><span class="se">\'</span><span class="s">http://www.w3.org/2001/XMLSchema-instance</span><span class="se">\'</span><span class="s"> xmlns:xsd=</span><span class="se">\'</span><span class="s">http://www.w3.org/2001/XMLSchema</span><span class="se">\'</span><span class="s"> xmlns:soap=</span><span class="se">\'</span><span class="s">http://schemas.xmlsoap.org/soap/envelope/</span><span class="se">\'</span><span class="s">&gt;&lt;soap:Body&gt;&lt;GetListItems xmlns=</span><span class="se">\'</span><span class="s">http://schemas.microsoft.com/sharepoint/soap/</span><span class="se">\'</span><span class="s">&gt;&lt;listName&gt;Courses&lt;/listName&gt;&lt;viewName&gt;&lt;/viewName&gt;&lt;query&gt;&lt;Query&gt;&lt;Where&gt;&lt;Eq&gt;&lt;FieldRef Name=</span><span class="se">\'</span><span class="s">SUBJECT_NAME</span><span class="se">\'</span><span class="s">/&gt;&lt;Value Type=</span><span class="se">\'</span><span class="s">Text</span><span class="se">\'</span><span class="s">&gt;&lt;![CDATA[Accountancy]]&gt;&lt;/Value&gt;&lt;/Eq&gt;&lt;/Where&gt;&lt;OrderBy&gt;&lt;FieldRef Name=</span><span class="se">\'</span><span class="s">SUBJECT</span><span class="se">\'</span><span class="s"> Ascending=</span><span class="se">\'</span><span class="s">True</span><span class="se">\'</span><span class="s"> /&gt;&lt;FieldRef Name=</span><span class="se">\'</span><span class="s">CATALOG_NBR</span><span class="se">\'</span><span class="s"> Ascending=</span><span class="se">\'</span><span class="s">True</span><span class="se">\'</span><span class="s"> /&gt;&lt;/OrderBy&gt;&lt;/Query&gt;&lt;/query&gt;&lt;viewFields&gt;&lt;ViewFields&gt;&lt;FieldRef Name=</span><span class="se">\'</span><span class="s">Title</span><span class="se">\'</span><span class="s"> /&gt;&lt;FieldRef Name=</span><span class="se">\'</span><span class="s">SUBJECT</span><span class="se">\'</span><span class="s"> /&gt;&lt;FieldRef Name=</span><span class="se">\'</span><span class="s">CATALOG_NBR</span><span class="se">\'</span><span class="s"> /&gt;&lt;FieldRef Name=</span><span class="se">\'</span><span class="s">ACAD_CAREER</span><span class="se">\'</span><span class="s"> /&gt;&lt;FieldRef Name=</span><span class="se">\'</span><span class="s">DESCR</span><span class="se">\'</span><span class="s"> /&gt;&lt;FieldRef Name=</span><span class="se">\'</span><span class="s">Prerequisites</span><span class="se">\'</span><span class="s"> /&gt;&lt;/ViewFields&gt;&lt;/viewFields&gt;&lt;rowLimit&gt;0&lt;/rowLimit&gt;&lt;queryOptions&gt;&lt;QueryOptions&gt;&lt;/QueryOptions&gt;&lt;/queryOptions&gt;&lt;/GetListItems&gt;&lt;/soap:Body&gt;&lt;/soap:Envelope&gt;'</span>
+
+<span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://www.depaul.edu/university-catalog/_vti_bin/Lists.asmx'</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">cookies</span><span class="o">=</span><span class="n">cookies</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>3. Let’s clean up the code block above, removing unneeded information. Through trial and error, I have removed all cookies and all but one of the headers to simplify the code a bit. <strong>NOTE: After running once, a reformatting of the data variable was needed before depaul.edu would accept it.</strong> Below is what the code looks like after reformatting.</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="s">"""Import requests and xmltoduct
+These will be contained in the env/ folder.
+"""</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="s">"""The following url, headers and data come from analyzing the network activity of the website."""</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://www.depaul.edu/university-catalog/_vti_bin/Lists.asmx'</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Content-Type'</span><span class="p">:</span> <span class="s">"text/xml;charset='UTF-8'"</span><span class="p">}</span>
+<span class="n">data</span> <span class="o">=</span> <span class="s">'''&lt;soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'&gt;
+            &lt;soap:Body&gt;
+                &lt;GetListItems xmlns='http://schemas.microsoft.com/sharepoint/soap/'&gt;
+                    &lt;listName&gt;Courses&lt;/listName&gt;
+                    &lt;viewName&gt;&lt;/viewName&gt;
+                    &lt;query&gt;
+                        &lt;Query&gt;&lt;/Query&gt;
+                    &lt;/query&gt;
+                    &lt;viewFields&gt;
+                        &lt;ViewFields&gt;
+                            &lt;FieldRef Name='Title' /&gt;
+                            &lt;FieldRef Name='SUBJECT' /&gt;
+                            &lt;FieldRef Name='CATALOG_NBR' /&gt;
+                            &lt;FieldRef Name='ACAD_CAREER' /&gt;
+                            &lt;FieldRef Name='DESCR' /&gt;
+                            &lt;FieldRef Name='Prerequisites' /&gt;
+                        &lt;/ViewFields&gt;
+                    &lt;/viewFields&gt;
+                    &lt;rowLimit&gt;0&lt;/rowLimit&gt;
+                    &lt;queryOptions&gt;
+                        &lt;QueryOptions&gt;&lt;/QueryOptions&gt;
+                    &lt;/queryOptions&gt;
+                &lt;/GetListItems&gt;
+            &lt;/soap:Body&gt;
+        &lt;/soap:Envelope&gt;'''</span>
+<span class="s">"""Send the data along with the headers to the url found while looking at the XHR reqquests."""</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+</code></pre>
+</div>
+
+<p>4. (Optional) Currently sitting in the payload variable is the XML we saw at <strong>step 5</strong>. This is hard to work with in Python so let’s convert it into a structure that is easier to work with. Using the code below, we iterate through all courses, creating a list of tuples representing the response from depaul.edu.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="s">"""Parse the content returned. In this case, the path is complex so trial and error works best."""</span>
+<span class="kn">import</span> <span class="nn">xmltodict</span>
+<span class="n">class_list</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">payload</span><span class="p">)[</span><span class="s">'soap:Envelope'</span><span class="p">][</span><span class="s">'soap:Body'</span><span class="p">][</span><span class="s">'GetListItemsResponse'</span><span class="p">][</span><span class="s">'GetListItemsResult'</span><span class="p">][</span><span class="s">'listitems'</span><span class="p">][</span><span class="s">'rs:data'</span><span class="p">][</span><span class="s">'z:row'</span><span class="p">]</span>
+
+<span class="s">"""Format the response payload into a data structure that would want to be used later."""</span>
+<span class="n">courses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">class_list</span><span class="p">:</span>
+    <span class="n">courses</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+            <span class="n">c</span><span class="p">[</span><span class="s">'@ows_Title'</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_SUBJECT'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_CATALOG_NBR'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_ACAD_CAREER'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_DESCR'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_Prerequisites'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_Modified'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_Created'</span><span class="p">)</span>
+        <span class="p">])</span>
+<span class="k">print</span> <span class="n">courses</span>
+</code></pre>
+</div>
+
+<h3 id="complete-script">Complete Script</h3>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="s">"""Import requests and xmltoduct
+These will be contained in the env/ folder.
+"""</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">xmltodict</span>
+
+<span class="s">"""The following url, headers and data come from analyzing the network activity of the website."""</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://www.depaul.edu/university-catalog/_vti_bin/Lists.asmx'</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Content-Type'</span><span class="p">:</span> <span class="s">"text/xml;charset='UTF-8'"</span><span class="p">}</span>
+<span class="n">data</span> <span class="o">=</span> <span class="s">'''&lt;soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'&gt;
+            &lt;soap:Body&gt;
+                &lt;GetListItems xmlns='http://schemas.microsoft.com/sharepoint/soap/'&gt;
+                    &lt;listName&gt;Courses&lt;/listName&gt;
+                    &lt;viewName&gt;&lt;/viewName&gt;
+                    &lt;query&gt;
+                        &lt;Query&gt;&lt;/Query&gt;
+                    &lt;/query&gt;
+                    &lt;viewFields&gt;
+                        &lt;ViewFields&gt;
+                            &lt;FieldRef Name='Title' /&gt;
+                            &lt;FieldRef Name='SUBJECT' /&gt;
+                            &lt;FieldRef Name='CATALOG_NBR' /&gt;
+                            &lt;FieldRef Name='ACAD_CAREER' /&gt;
+                            &lt;FieldRef Name='DESCR' /&gt;
+                            &lt;FieldRef Name='Prerequisites' /&gt;
+                        &lt;/ViewFields&gt;
+                    &lt;/viewFields&gt;
+                    &lt;rowLimit&gt;0&lt;/rowLimit&gt;
+                    &lt;queryOptions&gt;
+                        &lt;QueryOptions&gt;&lt;/QueryOptions&gt;
+                    &lt;/queryOptions&gt;
+                &lt;/GetListItems&gt;
+            &lt;/soap:Body&gt;
+        &lt;/soap:Envelope&gt;'''</span>
+<span class="s">"""Send the data along with the headers to the url found while looking at the XHR reqquests."""</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">content</span>
+
+<span class="s">"""Parse the content returned. In this case, the path is complex so trial and error works best."""</span>
+<span class="n">class_list</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">payload</span><span class="p">)[</span><span class="s">'soap:Envelope'</span><span class="p">][</span><span class="s">'soap:Body'</span><span class="p">][</span><span class="s">'GetListItemsResponse'</span><span class="p">][</span><span class="s">'GetListItemsResult'</span><span class="p">][</span><span class="s">'listitems'</span><span class="p">][</span><span class="s">'rs:data'</span><span class="p">][</span><span class="s">'z:row'</span><span class="p">]</span>
+
+<span class="s">"""Format the response payload into a data structure that would want to be used later."""</span>
+<span class="n">courses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">class_list</span><span class="p">:</span>
+    <span class="n">courses</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+            <span class="n">c</span><span class="p">[</span><span class="s">'@ows_Title'</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_SUBJECT'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_CATALOG_NBR'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_ACAD_CAREER'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_DESCR'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_Prerequisites'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_Modified'</span><span class="p">),</span>
+            <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'@ows_Created'</span><span class="p">)</span>
+        <span class="p">])</span>
+<span class="k">print</span> <span class="n">courses</span>
+
+</code></pre>
+</div>
+
+<h2 id="helpful-links">Helpful Links</h2>
+<ul>
+  <li>Download the completed scraper: <a href="/sample-scripts/chapter5.py">chapter5.py</a></li>
+  <li><a href="https://curl.trillworks.com/">cURL to Python</a></li>
+</ul>
+
+<h2 id="checklist-before-completing-the-chapter">Checklist Before Completing the Chapter</h2>
+<ul>
+  <li>I have a Python Script that can circumnavigate a website and access its API directly</li>
+  <li>I understand how to interact with this data after storing it in a variable</li>
+</ul>
+
+
+</div>
+
+<div class="pagination">
+  
+    <a href="/building-a-webscraper-chapter-4" class="left arrow">&#8592; Previous Chapter</a>
+  
+  
+
+  <a href="#" class="top">Top</a>
+</div>
+
+    </main>
+
+    <footer>
+      <span>
+        &copy; <time datetime="2017-11-17 19:59:17 -0600">2017</time> Tim Gamble
+      </span>
+    </footer>
+  </body>
+</html>

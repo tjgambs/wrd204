@@ -1,0 +1,26 @@
+# Permalinks
+permalink:      /:title
+
+# Setup
+title:          Web Scraper User Guide
+paginate:       5
+baseurl:        ""
+url:            "https://tjgambs.github.io/"
+
+# Assets
+sass:
+  sass_dir:     _sass
+  style:        :compressed
+
+# Build settings
+markdown:       kramdown
+
+# About
+author:
+  name:         Tim Gamble
+  url:          http://tjgambs.github.io/
+  email:        tjgambs@gmail.com
+
+# Gems
+gems:
+  - jekyll-paginate

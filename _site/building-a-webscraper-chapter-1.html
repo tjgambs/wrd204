@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    
+      Chapter 1: Setting Things Up &middot; Web Scraper User Guide
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+</head>
+
+
+  <body>
+    <nav class="nav">
+      <div class="nav-container">
+        <a href="/">
+          <h2 class="nav-title">Web Scraper User Guide</h2>
+        </a>
+        <ul>
+          <li><a href="/">Posts</a></li>
+        </ul>
+    </div>
+  </nav>
+
+    <main>
+      <div class="post">
+  <div class="post-info">
+    <span>Written by</span>
+    
+        Tim Gamble
+    
+
+    
+      <br>
+      <span>on&nbsp;</span><time datetime="2017-11-17 00:00:00 -0600">November 17, 2017</time>
+    
+  </div>
+
+  <h1 class="post-title">Chapter 1: Setting Things Up</h1>
+  <div class="post-line"></div>
+
+  <p>In this chapter, we will discuss the required software as well as how to generate an environment for your web scraper.</p>
+
+<h2 id="required-software">Required Software</h2>
+<ol>
+  <li><a href="https://www.google.com/chrome/browser/desktop/index.html">Google Chrome</a></li>
+  <li><a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a></li>
+  <li><a href="https://chrome.google.com/webstore/detail/disable-html/lfhjgihpknekohffabeddfkmoiklonhm">disable-HTML</a></li>
+  <li><a href="https://www.sublimetext.com/">Sublime Text</a></li>
+  <li><a href="https://www.python.org/downloads/">python 2.7</a></li>
+  <li><a href="https://pypi.python.org/pypi/pip">pip</a>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Linux</span>
+<span class="gp">~$ </span>sudo apt-get install python-pip
+<span class="c"># Mac OS</span>
+<span class="gp">~$ </span>brew install python
+</code></pre>
+    </div>
+  </li>
+  <li><a href="https://pypi.python.org/pypi/virtualenv">virtualenv</a>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">~$ </span>pip install virtualenv
+</code></pre>
+    </div>
+  </li>
+</ol>
+
+<h2 id="creating-the-work-environment">Creating the Work Environment</h2>
+<h3 id="installing">Installing</h3>
+<p>1. Open Terminal</p>
+
+<p>2. Navigate to the directory you want to store your project in</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">~$ </span><span class="nb">cd </span>Desktop/
+</code></pre>
+</div>
+
+<p>3. Make a new directory for your project</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">~/Desktop$ </span>mkdir sample-scrapers
+</code></pre>
+</div>
+
+<p>4. Navigate into this directory</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">~/Desktop$ </span><span class="nb">cd </span>sample-scrapers/
+</code></pre>
+</div>
+
+<p>5. Create a virtual environment for your python packages</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">~/Desktop/sample-scrapers/$ </span>virtualenv env
+</code></pre>
+</div>
+
+<p>6. Activate the virtual environment</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">~/Desktop/sample-scrapers/$ </span><span class="nb">source </span>env/bin/activate
+</code></pre>
+</div>
+
+<p>7. Install the needed python packages</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="o">(</span>env<span class="o">)</span> ~/Desktop/sample-scrapers/<span class="nv">$ </span>pip install BeautifulSoup
+<span class="o">(</span>env<span class="o">)</span> ~/Desktop/sample-scrapers/<span class="nv">$ </span>pip install requests
+<span class="o">(</span>env<span class="o">)</span> ~/Desktop/sample-scrapers/<span class="nv">$ </span>pip install mechanize
+<span class="o">(</span>env<span class="o">)</span> ~/Desktop/sample-scrapers/<span class="nv">$ </span>pip install selenium
+<span class="o">(</span>env<span class="o">)</span> ~/Desktop/sample-scrapers/<span class="nv">$ </span>pip install xmltodict
+</code></pre>
+</div>
+
+<h3 id="testing">Testing</h3>
+<p>Let’s confirm that the virtual environment is set up properly and ready for development. Type in the following import statements. We want to make sure everything is installed before proceeding to the next chapter.</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="o">(</span>env<span class="o">)</span> ~/Desktop/sample-scrapers/<span class="nv">$ </span>python
+Python 2.7.12 <span class="o">(</span>default, Nov 30 2016, 12:04:04<span class="o">)</span> 
+<span class="gp">&gt;&gt;&gt; </span>from BeautifulSoup import BeautifulSoup
+<span class="gp">&gt;&gt;&gt; </span>import requests
+<span class="gp">&gt;&gt;&gt; </span>import mechanize
+<span class="gp">&gt;&gt;&gt; </span>import selenium
+<span class="gp">&gt;&gt;&gt; </span>import xmltodict
+</code></pre>
+</div>
+
+
+</div>
+
+<div class="pagination">
+  
+  
+    <a href="/building-a-webscraper-chapter-2" class="right arrow">Next Chapter &#8594;</a>
+  
+
+  <a href="#" class="top">Top</a>
+</div>
+
+    </main>
+
+    <footer>
+      <span>
+        &copy; <time datetime="2017-11-17 19:59:17 -0600">2017</time> Tim Gamble
+      </span>
+    </footer>
+  </body>
+</html>
