@@ -15,6 +15,11 @@ sass:
 # Build settings
 markdown:       kramdown
 
+# About
+author:
+  name:         Tim Gamble
+
+
 # Gems
 gems:
   - jekyll-paginate
